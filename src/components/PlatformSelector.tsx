@@ -3,12 +3,18 @@ import { BiChevronDown } from "react-icons/bi";
 import usePlatform, { Platform } from "../hooks/usePlatforms";
 
 interface Props {
-  onSelectedPLatform: (platform: Platform | null) => void;
-  selectedPlatform: Platform | null;
+  onSelectedPlatform: (platform: Platform | null) => void;
+  selectedPlatformId?: number;
 }
 
-const PlatformSelector = ({ onSelectedPLatform, selectedPlatform }: Props) => {
+const PlatformSelector = ({
+  onSelectedPlatform,
+  selectedPlatformId,
+}: Props) => {
   const { data, error } = usePlatform();
+  const selectedPlatform = data?.results.find(
+    (p) => p.id === selectedPlatformId
+  );
 
   if (error) return null;
 
@@ -21,7 +27,7 @@ const PlatformSelector = ({ onSelectedPLatform, selectedPlatform }: Props) => {
         {data?.results.map((platform) => (
           <MenuItem
             key={platform.id}
-            onClick={() => onSelectedPLatform(platform)}
+            onClick={() => onSelectedPlatform(platform)}
           >
             {platform.name}
           </MenuItem>
